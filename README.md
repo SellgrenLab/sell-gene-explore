@@ -28,8 +28,7 @@ To run certain analyses, you need to have R installed. Download and install R fr
 
 
 ### Start Here: Cloning the Repository
-Open your Terminal on Mac (or command line in windows)
-First, clone the repository using Git, so copy-paste these lines in your terminal:
+Open your Terminal on Mac (or command line in windows), copy-paste these lines in your terminal:
 ```bash
 git clone https://github.com/SellgrenLab/sell-gene-explore/
 cd sell-gene-explore
@@ -53,7 +52,7 @@ Replace ```<color_palette>``` with the palette
 
 Three files with figures corresponding to the above datasets are generated in the ```results/``` folder.
 
-
+### Happy Exploring
 
 ##### Note 
 The code is adapted to specific files that are present in my (SM) folder on the server. If the path is modified, the script needs to be updated accordingly. The external datasets are used as published by the authors and not modified. If there are issues/errors while running or if you have any questions, feel free to get in touch with me. 
