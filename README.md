@@ -46,7 +46,7 @@ The default color palette is set to YlGnBu. If you want to change it, you can sp
 ```bash
 Rscript GeneExplorer.r --gene <GENE_NAME> -p <color_palette>
 ```
-Replace ```<color_palette>``` with the palette
+Replace ```<color_palette>``` with the palette. For example RdBu, YlOrRd, Reds, Blues, PuBuGn, RdYlGn, RdYlBu, Spectral, RdGy or PrGn, etc. 
 
 ## Output
 
