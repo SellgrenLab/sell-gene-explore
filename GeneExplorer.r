@@ -37,7 +37,7 @@ for (pkg in cran_packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) install.packages(pkg)
 }
 
-bioc_packages <- c("rhdf5", "ComplexHeatmap")
+bioc_packages <- c("ComplexHeatmap")
 
 for (pkg in bioc_packages) {
     if (!requireNamespace(pkg, quietly = TRUE)) BiocManager::install(pkg)
@@ -56,7 +56,6 @@ suppressPackageStartupMessages({
     require(cowplot)
     require(RColorBrewer)
     require(grid)
-    require(rhdf5)
     require(openxlsx)
     require(ComplexHeatmap)
     require(circlize)
