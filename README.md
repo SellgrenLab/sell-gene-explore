@@ -1,14 +1,8 @@
 # sell-gene-explore
 
-To quickly look at the transcriptomic expression of a gene across different external datasets and internally generated data.
+To quickly look at the transcriptomic expression of a gene across different external datasets and internally generated data. 
+[Tailored to members of the Sellgren lab.]
 
-Make sure you have access to Sellgren lab's KI server before running the script.
-
-## Datasets Used (external)
-
-1. **BrainSpan Data:** 8 pcw - 40 y bulk RNAseq [[www.brainspan.org](http://www.brainspan.org)] Spatio-temporal transcriptome of the human brain. Nature. 2011 Oct 26; 478(7370):483-9. PMID: 22031440
-2. **Human brain 1st trimester:** Braun et al. DOI: 10.1126/science.adf1226. Epub 2023 Oct 13. PMID: 37824650
-3. **Human brain (2nd trimester-Adult):** Velmeshev et al. DOI: 10.1126/science.adf0834. Epub 2023 Oct 13. PMID: 37824647; PMCID: PMC11005279
 
 ## Running the Script
 You will first need to access the Sellgren lab folder at least once before starting. If you are working from home or remotely, make sure your VPN is connected and you have opened the server at least once. 
@@ -54,9 +48,16 @@ Replace ```<color_palette>``` with the palette. For example RdBu, YlOrRd, Reds, 
 
 ## Output
 
-Three files with figures corresponding to the above datasets are generated in the ```results/``` folder.
+Three files with figures corresponding to the datasets below are generated in the ```results/``` folder.
 
-### Happy Exploring
+## Datasets Used (external)
+
+1. **BrainSpan Data:** 8 pcw - 40 y bulk RNAseq [[www.brainspan.org](http://www.brainspan.org)] Spatio-temporal transcriptome of the human brain. Nature. 2011 Oct 26; 478(7370):483-9. PMID: 22031440
+2. **Human brain 1st trimester:** Braun et al. DOI: 10.1126/science.adf1226. Epub 2023 Oct 13. PMID: 37824650
+3. **Human brain (2nd trimester-Adult):** Velmeshev et al. DOI: 10.1126/science.adf0834. Epub 2023 Oct 13. PMID: 37824647; PMCID: PMC11005279
+
+
+### Happy Exploring!
 
 ##### Note 
 The code is adapted to specific files that are present in my (SM) folder on the server. If the path is modified, the script needs to be updated accordingly. The external datasets are used as published by the authors and not modified. If there are issues/errors while running or if you have any questions, feel free to get in touch with me. 
