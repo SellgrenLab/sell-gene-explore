@@ -13,7 +13,7 @@ Make sure you have access to Sellgren lab's KI server before running the script.
 ## Running the Script
 You will first need to access the Sellgren lab folder at least once before starting. If you are working from home or remotely, make sure your VPN is connected and you have opened the server at least once. 
 
-### Installing R
+### Installing R (skip if already installed)
 To run certain analyses, you need to have R installed. Download and install R from:
 - [CRAN (Comprehensive R Archive Network)](https://cran.r-project.org/)
 - Follow the installation instructions for your operating system.
