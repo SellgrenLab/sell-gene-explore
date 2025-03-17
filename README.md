@@ -33,6 +33,9 @@ Open your Terminal on Mac (or command line in windows), copy-paste these lines i
 git clone https://github.com/SellgrenLab/sell-gene-explore/
 cd sell-gene-explore
 ```
+If you do not have git installed, you can either install the macOS installer from [Git’s official site](https://git-scm.com/download/mac) or the [Git for Windows](https://git-scm.com/download/win)
+
+Alternatively, skip git clone and directly download the script from the server to your home directory (directory before desktop or downloads) on your computer (e.g /Users/carl.sellgren) and continue with the next steps. 
 
 To analyze gene expression, run (copy-paste) the following command in your command terminal:
 
