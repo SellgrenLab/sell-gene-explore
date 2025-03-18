@@ -7,7 +7,7 @@ To quickly look at the transcriptomic expression of a gene across different exte
 ## Running the Script
 You will first need to access the Sellgren lab folder at least once before starting. If you are working from home or remotely, make sure your VPN is connected and you have opened the server at least once. 
 
-### Installing R (skip if already installed)
+### A. Installing R (skip if already installed)
 To run certain analyses, you need to have R installed. Download and install R from:
 - [CRAN (Comprehensive R Archive Network)](https://cran.r-project.org/)
 - Follow the installation instructions for your operating system.
@@ -21,7 +21,7 @@ To run certain analyses, you need to have R installed. Download and install R fr
 2. Run the `.exe` installer and follow the setup instructions.
 
 
-### Start Here: Cloning the Repository or setting up the folder
+### B. Start Here: Cloning the Repository or setting up the folder
 Open your Terminal on Mac (or command line in windows), copy-paste these lines in your terminal:
 ```bash
 git clone https://github.com/SellgrenLab/sell-gene-explore/
@@ -31,8 +31,8 @@ If you do not have git installed, you can either install the macOS installer fro
 
 Alternatively, skip git clone and directly download the script from the server (in ```Cell annotation & stainings``` folder) to your ```home``` directory (directory before desktop or downloads) on your computer (e.g. ```/Users/carl.sellgren```) and continue with the next steps. 
 
-### Get gene profiles
-To analyze gene expression, run (copy-paste) the following command in your command terminal:
+### C. Get gene profiles
+To visualize gene expression, run (copy-paste) the following command in your command terminal:
 
 ```bash
 Rscript GeneExplorer.r --gene <GENE_NAME> 
