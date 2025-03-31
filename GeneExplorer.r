@@ -263,76 +263,80 @@ print("Loading pan development data . . . ")
 velm <- readRDS("/Volumes/projects/C3_Sellgren_lab/Lab Members/Susmita/External datasets/Single Cell Studies/kriegstein human adolescence/VelmeshevLab_human_brain23.rds")
 
 #max(velm@assays$RNA@counts)
+#velm <- SCTransform(velm, verbose = FALSE) already normalized
 
-
-velm <- SCTransform(velm, verbose = FALSE)
-
-velm$age <- factor(velm$age, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
-velm$plot <- paste0(velm$age, "_", velm$celltype)
-velm$plot <- factor(velm$plot, levels = unique(velm$plot[order(velm$age)]))
-Idents(velm) <- "plot"
+#velm$Age_Range <- factor(velm$Age_Range, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
+#velm$plot <- paste0(velm$Age_Range, "_", velm$Lineage)
+#velm$plot <- factor(velm$plot, levels = unique(velm$plot[order(velm$Age_Range)]))
+#Idents(velm) <- "plot"
 ## Set brain regions
-velm@meta.data <- velm@meta.data %>% dplyr::mutate(Broad_Region = case_when(
-    grepl("BA9|BA24|PFC|BA46|FC|GW[0-9]+\\.PFC", region) ~ "Prefrontal Cortex",
-     grepl("Cing|cing|GW[0-9]+\\.cing", region) ~ "Cingulate Cortex",
-     grepl("INS|BA13", region) ~ "Insular Cortex",
-     grepl("BA22|temp|STG|GW[0-9]+\\.temp", region) ~ "Temporal Cortex",
-     grepl("SM[0-9]", region) ~ "Sensory-Motor Cortex",
-          grepl("LGE|MGE|CGE|GE|GW[0-9]+\\.(LGE|CGE)", region) ~ "Ganglionic Eminences",
-     TRUE ~ "Other"
-   ))
+#velm@meta.data <- velm@meta.data %>% dplyr::mutate(Broad_Region = case_when(
+#    grepl("BA9|BA24|PFC|BA46|FC|GW[0-9]+\\.PFC", region) ~ "Prefrontal Cortex",
+#     grepl("Cing|cing|GW[0-9]+\\.cing", region) ~ "Cingulate Cortex",
+#     grepl("INS|BA13", region) ~ "Insular Cortex",
+#     grepl("BA22|temp|STG|GW[0-9]+\\.temp", region) ~ "Temporal Cortex",
+#     grepl("SM[0-9]", region) ~ "Sensory-Motor Cortex",
+#          grepl("LGE|MGE|CGE|GE|GW[0-9]+\\.(LGE|CGE)", region) ~ "Ganglionic Eminences",
+#     TRUE ~ "Other"
+#   ))
 
 if (!(gene %in% rownames(velm))) {
     stop(paste("Error: Gene", gene, "is not present in the Velmeshev dataset. Check other gene symbol aliases before giving up."), call. = FALSE)
 } 
 print("Pan development data is ready to plot . . . ")
-p5 <- DotPlot2(velm, features = gene, group.by = "age", color_scheme = "YlGnBu") 
-p6 <- DotPlot2(velm, features = gene, group.by = "celltype", color_scheme = "YlGnBu") 
+p5 <- DotPlot2(velm, features = gene, group.by = "Age_Range", color_scheme = "YlGnBu") 
+p6 <- DotPlot2(velm, features = gene, group.by = "Lineage", color_scheme = "YlGnBu") 
 
 #p7 <- DotPlot2(velm, features = gene, group.by = "plot", color_scheme = "YlGnBu") + 
 #    coord_flip() + 
 #    scale_x_discrete(limits = rev(levels(velm$plot))) 
+#
+#    # Add Broad_Region information to the heatmap
+#    toplot2 <- AggregateExpression(velm, features = gene, group.by = c("Age_Range", "Lineage", "Broad_Region"))$RNA
+#    colnames(toplot2) <- sub("^g", "", colnames(toplot2))
+#    names_of_df <- colnames(toplot2)
+#    cell_groups <- sapply(strsplit(colnames(toplot2), "_"), `[`, 1)
+#    cell_types <- sapply(strsplit(colnames(toplot2), "_"), `[`, 2)
+#    broad_regions <- sapply(strsplit(colnames(toplot2), "_"), `[`, 3)
+#    cell_groups <- factor(cell_groups, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
+#    toplot2 <- toplot2[order(cell_groups, broad_regions)]
+#    toplot2 <- as.data.frame(toplot2)
+#    colnames(toplot2) <- gene
+#    toplot2$cell_groups <- cell_groups
+#    toplot2$cell_types <- cell_types
+#    toplot2$broad_regions <- broad_regions
 
-    # Add Broad_Region information to the heatmap
-    toplot2 <- AggregateExpression(velm, features = gene, group.by = c("age", "celltype", "Broad_Region"))$RNA
-    colnames(toplot2) <- sub("^g", "", colnames(toplot2))
-    names_of_df <- colnames(toplot2)
-    cell_groups <- sapply(strsplit(colnames(toplot2), "_"), `[`, 1)
-    cell_types <- sapply(strsplit(colnames(toplot2), "_"), `[`, 2)
-    broad_regions <- sapply(strsplit(colnames(toplot2), "_"), `[`, 3)
-    cell_groups <- factor(cell_groups, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
-    toplot2 <- toplot2[order(cell_groups, broad_regions)]
-    toplot2 <- as.data.frame(toplot2)
-    colnames(toplot2) <- gene
-    toplot2$cell_groups <- cell_groups
-    toplot2$cell_types <- cell_types
-    toplot2$broad_regions <- broad_regions
-
-    # Plot heatmap with facets for age
-    p7 <- ggplot(toplot2, aes(x = broad_regions, y = cell_types, fill = !!sym(gene))) +
-        geom_tile() +
-        facet_wrap(~ cell_groups, scales = "free_y") +
-        scale_fill_gradientn(colors = colorRampPalette(brewer.pal(9, pal))(100)) +
-        theme_minimal() +
-        labs(x = "Broad Region", y = "Cell Type", fill = "Expression") +
-        theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y = element_text(size = 8))
+#    # Plot heatmap with facets for age
+#    p7 <- ggplot(toplot2, aes(x = broad_regions, y = cell_types, fill = !!sym(gene))) +
+#       geom_tile() +
+#        facet_wrap(~ cell_groups, scales = "free_y") +
+#        scale_fill_gradientn(colors = colorRampPalette(brewer.pal(9, pal))(100)) +
+#        theme_minimal() +
+#        labs(x = "Broad Region", y = "Cell Type", fill = "Expression") +
+#        theme(axis.text.x = element_text(angle = 90, hjust = 1), axis.text.y = element_text(size = 8))
 
     # Create a combined factor for cell_groups and broad_regions
-    combined_factor <- factor(paste(cell_groups, broad_regions, sep = "_"), levels = unique(paste(cell_groups, broad_regions, sep = "_")))
+#   combined_factor <- factor(paste(cell_groups, broad_regions, sep = "_"), levels = unique(paste(cell_groups, broad_regions, sep = "_")))
+#
+#    p7 <- SeuratExtend::Heatmap(toplot2, features = gene, facet_row = combined_factor, color_scheme = "YlGnBu", lab_fill = "Expression")
 
-    p7 <- SeuratExtend::Heatmap(toplot2, features = gene, facet_row = combined_factor, color_scheme = "YlGnBu", lab_fill = "Expression")
 
-
-toplot2 <- AverageExpression(velm, features = gene, group.by = c("age", "celltype") )$RNA
-colnames(toplot2) <- sub("^g", "", colnames(toplot2))
-names_of_df <- colnames(toplot2)
-cell_groups <- sapply(strsplit(colnames(toplot2), "_"), `[`, 1)
-cell_groups <- factor(cell_groups, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
-toplot2 <- toplot2[order(cell_groups)]
-toplot2 <- as.data.frame(toplot2)
-colnames(toplot2) <- gene
-rownames(toplot2) <- names_of_df #sapply(strsplit(names_of_df, "_"), `[`, 2)
-p7 <- SeuratExtend::Heatmap(toplot2, features=gene, facet_row = cell_groups, color_scheme="YlGnBu", lab_fill="Expression")
+#toplot2 <- AverageExpression(velm, features = gene, group.by = c("Age_Range", "Lineage") )$RNA
+#colnames(toplot2) <- sub("^g", "", colnames(toplot2))
+#names_of_df <- colnames(toplot2)
+#cell_groups <- sapply(strsplit(colnames(toplot2), "_"), `[`, 1)
+#cell_groups <- factor(cell_groups, levels = c("2nd trimester", "3rd trimester", "0-1 years", "1-2 years", "2-4 years", "4-10 years", "10-20 years", "Adult"))
+#toplot2 <- toplot2[order(cell_groups)]
+#toplot2 <- as.data.frame(toplot2)
+#colnames(toplot2) <- gene
+#rownames(toplot2) <- names_of_df #sapply(strsplit(names_of_df, "_"), `[`, 2)
+#p7 <- SeuratExtend::Heatmap(toplot2, features=gene, facet_row = cell_groups, color_scheme="YlGnBu", lab_fill="Expression") +
+#  theme(legend.title = element_text(size = 12, face = "bold"),
+#    legend.text = element_text(size = 10)) + scale_fill_gradient(
+#  name = "Expression",  # Legend title
+#  labels = c("Low", "Medium", "High")  # Custom labels
+#)
+p7<- DotPlot2(velm, features=gene, group.by="Age_Range", "Lineage", cols=pal)                
 main_plots[[3]] <- cowplot::plot_grid(p5, p6, p7, nrow = 3, rel_heights = c(1, 1,7))
 
 # Create a blank plot to align the title with the first plot
