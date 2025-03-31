@@ -260,7 +260,7 @@ rm(list = c("lin","genes_lin", "lin_grouped", "lin_sub", "plots_lin", "grobs"))
 ######################### Pan Development Single cell Data #########################
 print("Loading pan development data . . . ")
 
-velm <- readRDS("/Volumes/projects/C3_Sellgren_lab/Lab Members/Susmita/External datasets/Single Cell Studies/kriegstein human adolescence/VelmeshevLab_human_brain23.rds")
+velm <- readRDS("/Volumes/projects/C3_Sellgren_lab/Lab Members/Susmita/External datasets/Single Cell Studies/kriegstein human adolescence/Velmeshev_norm.rds")
 
 #max(velm@assays$RNA@counts)
 #velm <- SCTransform(velm, verbose = FALSE) already normalized
@@ -284,8 +284,8 @@ if (!(gene %in% rownames(velm))) {
     stop(paste("Error: Gene", gene, "is not present in the Velmeshev dataset. Check other gene symbol aliases before giving up."), call. = FALSE)
 } 
 print("Pan development data is ready to plot . . . ")
-p5 <- DotPlot2(velm, features = gene, group.by = "Age_Range", color_scheme = "YlGnBu") 
-p6 <- DotPlot2(velm, features = gene, group.by = "Lineage", color_scheme = "YlGnBu") 
+p5 <- DotPlot2(velm, features = gene, group.by = "Age_Range", color_scheme = pal) 
+p6 <- DotPlot2(velm, features = gene, group.by = "Lineage", color_scheme = pal) 
 
 #p7 <- DotPlot2(velm, features = gene, group.by = "plot", color_scheme = "YlGnBu") + 
 #    coord_flip() + 
@@ -336,7 +336,7 @@ p6 <- DotPlot2(velm, features = gene, group.by = "Lineage", color_scheme = "YlGn
 #  name = "Expression",  # Legend title
 #  labels = c("Low", "Medium", "High")  # Custom labels
 #)
-p7<- DotPlot2(velm, features=gene, group.by="Age_Range", "Lineage", cols=pal)                
+p7<- DotPlot2(velm, features=gene, group.by="plot", color_scheme=pal)                
 main_plots[[3]] <- cowplot::plot_grid(p5, p6, p7, nrow = 3, rel_heights = c(1, 1,7))
 
 # Create a blank plot to align the title with the first plot
